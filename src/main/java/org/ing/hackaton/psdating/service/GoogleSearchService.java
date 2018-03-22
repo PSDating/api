@@ -79,7 +79,7 @@ public final class GoogleSearchService {
             }
         }
         final String zipcity = addresslocality == null ? postalcode : postalcode == null ? addresslocality : postalcode + " " + addresslocality;
-        return Recommendation.builder().phonenumber(telephone).city(addresslocality).zipCity(zipcity).companyName(companyName).address(streetaddress).logoUrl(image).url(url).build();
+        return Recommendation.builder().phonenumber(telephone).city(addresslocality).zipcode(postalcode).zipCity(zipcity).companyName(companyName).address(streetaddress).logoUrl(image).url(url).build();
     }
 
     private List<JSONObject> gatherFieldOptions(final Object item) {

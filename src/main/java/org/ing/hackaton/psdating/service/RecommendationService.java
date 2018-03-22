@@ -52,7 +52,7 @@ public final class RecommendationService {
     }
 
     private Recommendation collectInfoOnRecommendation(final String companyName) throws IOException, ParseException {
-//        return googleSearchService.collectInfoOnCompany(companyName);
-        return MockData.getInfoOnCompany(companyName);
+        return googleSearchService.collectInfoOnCompany(companyName);
+//        return MockData.getInfoOnCompany(companyName);
     }
 }

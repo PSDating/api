@@ -30,8 +30,8 @@ public final class KvkService {
 
         final JSONObject jsonObject = HttpUtil.executeRequestForJsonObject(HttpMethod.GET, BASE_URL + city, Collections.emptyMap(), Collections.emptyMap());
 
-//        System.out.println(recommendation);
-//        System.out.println(jsonObject);
+        System.out.println(recommendation);
+        System.out.println(jsonObject);
 
 //        return Collections.emptyList();
         return MockData.findAlternatives(partyName);

@@ -12,6 +12,7 @@ public final class Recommendation {
     private final String companyName;
     private final String logoUrl;
     private final String address;
+    private final String zipcode;
     private final String zipCity;
     private final String city;
     private final String phonenumber;
