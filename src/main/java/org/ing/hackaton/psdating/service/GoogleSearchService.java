@@ -37,7 +37,7 @@ public final class GoogleSearchService {
 
         while (i.hasNext() && (telephone == null || streetaddress == null || postalcode == null || addresslocality == null || url == null || image == null)) {
             final JSONObject item = (JSONObject) i.next();
-            final List<JSONObject> options = gatherFieldOptions((JSONObject) item.get("pagemap"));
+            final List<JSONObject> options = gatherFieldOptions(item.get("pagemap"));
             for (final JSONObject option : options) {
                 if (telephone == null && option.containsKey("telephone")) {
                     telephone = (String) option.get("telephone");
@@ -57,32 +57,35 @@ public final class GoogleSearchService {
                 if (image == null && option.containsKey("image")) {
                     image = (String) option.get("image");
                 }
+                if (image == null && option.containsKey("src")) {
+                    image = (String) option.get("src");
+                }
             }
         }
         final String zipcity = addresslocality == null ? postalcode == null ? null : postalcode : postalcode == null ? addresslocality : postalcode + " " + addresslocality;
-        return Recommendation.builder().phonenumber(telephone).zipCity(zipcity).companyName(companyName).address(streetaddress).logoUrl(image).url(url).build();
+        return Recommendation.builder().phonenumber(telephone).city(addresslocality).zipCity(zipcity).companyName(companyName).address(streetaddress).logoUrl(image).url(url).build();
     }
 
-    private List<JSONObject> gatherFieldOptions(final JSONObject item) {
+    private List<JSONObject> gatherFieldOptions(final Object item) {
         final List<JSONObject> options = new ArrayList<>();
-        if (item == null) {
-            return options;
+        if (item instanceof JSONObject) {
+            putInList(options, item, "hardwarestore");
+            putInList(options, item, "postaladdress");
+            putInList(options, item, "cse_image");
+//        } else if (item instanceof JSONArray) {
+//            for (final Object object : (JSONArray) item) {
+//                options.addAll(gatherFieldOptions(object));
+//            }
         }
-
-        final JSONArray hardwarestores = (JSONArray) item.get("hardwarestore");
-        if (hardwarestores != null) {
-            for (final Object object : hardwarestores) {
-                options.add((JSONObject) object);
-            }
-        }
-
-        final JSONArray postaladdresses = (JSONArray) item.get("postaladdress");
-        if (postaladdresses != null) {
-            for (final Object object : postaladdresses) {
-                options.add((JSONObject) object);
-            }
-        }
-
         return options;
+    }
+
+    private void putInList(final List<JSONObject> options, final Object item, final String key) {
+        final JSONArray values = (JSONArray) ((JSONObject) item).get(key);
+        if (values != null) {
+            for (final Object object : values) {
+                options.add((JSONObject) object);
+            }
+        }
     }
 }
