@@ -2,9 +2,11 @@ package org.ing.hackaton.psdating.domain;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.ToString;
 
 @Builder
 @Data
+@ToString
 public final class Recommendation {
 
     private final String companyName;

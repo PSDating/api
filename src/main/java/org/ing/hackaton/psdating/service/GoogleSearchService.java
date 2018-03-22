@@ -2,6 +2,7 @@ package org.ing.hackaton.psdating.service;
 
 import org.ing.hackaton.psdating.domain.Recommendation;
 import org.ing.hackaton.psdating.util.HttpUtil;
+import org.ing.hackaton.psdating.util.StringUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
@@ -13,6 +14,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Repository
 public final class GoogleSearchService {
@@ -21,6 +24,9 @@ public final class GoogleSearchService {
     private static final String SEARCH_KEY = "AIzaSyBmEvR80QoRWa2lNgo7hs9BPlnXl62mHsE";
     private static final String ENGINE_NAME = "007675409212950568648:sgbh0yztsva";
     private static final String ENGINE_URL = String.format("%s?key=%s&cx=%s&q=", BASE_URL, SEARCH_KEY, ENGINE_NAME);
+
+    private static final Pattern PATTERN_ZIPCITY = Pattern.compile("^(\\d\\d\\d\\d)[\\s]?(..) (.*)$");
+    private static final Pattern PATTERN_ZIP = Pattern.compile("^(\\d\\d\\d\\d)[\\s]?(..)$");
 
     public final Recommendation collectInfoOnCompany(final String companyName) throws IOException, ParseException {
         final JSONObject response = HttpUtil.executeRequestForJsonObject(HttpMethod.GET, ENGINE_URL + companyName, Collections.emptyMap(), Collections.emptyMap());
@@ -47,9 +53,19 @@ public final class GoogleSearchService {
                 }
                 if (postalcode == null && option.containsKey("postalcode")) {
                     postalcode = (String) option.get("postalcode");
+                    Matcher matcher = PATTERN_ZIPCITY.matcher(postalcode);
+                    if (matcher.find()) {
+                        postalcode = matcher.group(1) + " " + matcher.group(2);
+                        addresslocality = StringUtils.nonUpperCase(matcher.group(3));
+                    } else {
+                        matcher = PATTERN_ZIP.matcher(postalcode);
+                        if (matcher.find()) {
+                            postalcode = matcher.group(1) + " " + matcher.group(2);
+                        }
+                    }
                 }
                 if (addresslocality == null && option.containsKey("addresslocality")) {
-                    addresslocality = (String) option.get("addresslocality");
+                    addresslocality = StringUtils.nonUpperCase((String) option.get("addresslocality"));
                 }
                 if (url == null && option.containsKey("url")) {
                     url = (String) option.get("url");
@@ -62,7 +78,7 @@ public final class GoogleSearchService {
                 }
             }
         }
-        final String zipcity = addresslocality == null ? postalcode == null ? null : postalcode : postalcode == null ? addresslocality : postalcode + " " + addresslocality;
+        final String zipcity = addresslocality == null ? postalcode : postalcode == null ? addresslocality : postalcode + " " + addresslocality;
         return Recommendation.builder().phonenumber(telephone).city(addresslocality).zipCity(zipcity).companyName(companyName).address(streetaddress).logoUrl(image).url(url).build();
     }
 
