@@ -3,13 +3,11 @@ package org.ing.hackaton.psdating.controllers;
 import org.ing.hackaton.psdating.MockData;
 import org.ing.hackaton.psdating.domain.AccountResponse;
 import org.ing.hackaton.psdating.domain.Bank;
+import org.ing.hackaton.psdating.domain.BankAuthorization;
 import org.ing.hackaton.psdating.domain.User;
 import org.ing.hackaton.psdating.service.BankAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/account")
@@ -20,11 +18,9 @@ public final class BankAccountController {
     private BankAccountService bankAccountService;
 
     @RequestMapping
-    public final AccountResponse authorizeAccount(@RequestParam final String bankName, @RequestParam final String username,
-            @RequestParam(required = false) final String password, @RequestParam(required = false) final String bankCardNumber) {
+    public final AccountResponse authorizeAccount(@RequestBody BankAuthorization bankAuthorization) {
         final User user = MockData.USER;
-        final Bank bank = Bank.valueOf(bankName.toUpperCase());
-        return bankAccountService.loginWithBank(user, bank, username, password, bankCardNumber);
+        final Bank bank = Bank.valueOf(bankAuthorization.bankName.toUpperCase());
+        return bankAccountService.loginWithBank(user, bank, bankAuthorization.bankAccountNumber, " ", bankAuthorization.bankCardNumber);
     }
-
 }
