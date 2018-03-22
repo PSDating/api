@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/user")
-@CrossOrigin("*")
+@CrossOrigin
 public final class UserController {
 
     @RequestMapping(path="/register", method= RequestMethod.POST)

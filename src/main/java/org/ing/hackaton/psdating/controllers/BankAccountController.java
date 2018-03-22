@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/account")
-@CrossOrigin("*")
+@CrossOrigin
 public final class BankAccountController {
 
     @Autowired
