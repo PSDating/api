@@ -20,7 +20,7 @@ public final class BankAccountService {
             final String password, final String bankCardNumber) {
         switch (bank) {
         case RABO:
-            final String challengeUrl = performRaboLogin(username, bankCardNumber);
+            final String challengeUrl = obtainRaboChallenge(username, bankCardNumber);
             return AccountResponse.builder().status("CHALLENGE").challengeUrl(challengeUrl).build();
         case ABN:
         case ING:
@@ -31,8 +31,7 @@ public final class BankAccountService {
         }
     }
 
-    private String performRaboLogin(String username, String bankCardNumber) {
-        // TODO
-        return "/qslimage.png";
+    private String obtainRaboChallenge(String username, String bankCardNumber) {
+        return "/OKB4tfPxc1W7yNxakSDdWINfbMGXWAjEXlIb3FJf1F7M_ly_a29ysrHo9Xme0mju6.png";
     }
 }
