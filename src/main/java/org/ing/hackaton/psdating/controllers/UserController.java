@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@CrossOrigin({"35.205.49.155:8080", "localhost:8080"})
 @RequestMapping("/user")
+@CrossOrigin("*")
 public class UserController {
 
     @RequestMapping(path="/register", method= RequestMethod.POST)

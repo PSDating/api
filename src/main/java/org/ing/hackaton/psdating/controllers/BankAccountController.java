@@ -13,12 +13,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/account")
+@CrossOrigin("*")
 public final class BankAccountController {
 
     @Autowired
     private BankAccountService bankAccountService;
 
-    @CrossOrigin({"35.205.49.155:8080", "localhost:8080"})
     @RequestMapping
     public final AccountResponse authorizeAccount(@RequestParam final String bankName, @RequestParam final String username,
             @RequestParam(required = false) final String password, @RequestParam(required = false) final String bankCardNumber) {
