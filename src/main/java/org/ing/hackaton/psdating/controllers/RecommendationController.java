@@ -13,13 +13,13 @@ import java.util.List;
 
 @RestController
 @CrossOrigin("*")
-public class RecommendationController {
+public final class RecommendationController {
 
     @Autowired
     private RecommendationService recommendationService;
 
     @RequestMapping("/recommendations")
-    public List<Recommendation> recommendations() {
+    public final List<Recommendation> recommendations() {
         final User user = MockData.USER;
         return recommendationService.fetchRecommendationsForUser(user);
     }
