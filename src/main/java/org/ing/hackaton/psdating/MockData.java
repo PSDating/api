@@ -21,17 +21,19 @@ public final class MockData {
     );
 
     public static final List<Transaction> TRANSACTIONS = Arrays.asList(
-            Transaction.builder().partyName("Gamma Rotterdam").build(),
-            Transaction.builder().partyName("Jumbo Rotterdam").build()
+            Transaction.builder().partyName("Gamma Rotterdam Blijdorp").build(),
+            Transaction.builder().partyName("Jumbo 's-Gravelandseweg").build()
     );
 
     public static List<String> findAlternatives(final String partyName) {
-        if (partyName.equals("Gamma Rotterdam")) {
+        if (partyName.equals("Gamma Rotterdam Blijdorp")) {
             return Arrays.asList(
-                    "Praxis Rotterdam Zuid"
+                    "Praxis Rotterdam Zuid",
+                    "Hornbach Nieuwerkerk a/d IJssel",
+                    "Formido Rotterdam"
             );
         }
-        if (partyName.equals("Jumbo Rotterdam")) {
+        if (partyName.equals("Jumbo 's-Gravelandseweg")) {
             return Arrays.asList(
                     "Albert Heijn Mathenesserplein"
             );
