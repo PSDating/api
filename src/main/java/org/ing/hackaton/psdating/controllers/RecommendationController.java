@@ -5,11 +5,13 @@ import org.ing.hackaton.psdating.domain.Recommendation;
 import org.ing.hackaton.psdating.domain.User;
 import org.ing.hackaton.psdating.service.RecommendationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+@CrossOrigin({"35.205.253.173:8080", "localhost:8080"})
 @RestController
 public class RecommendationController {
 
