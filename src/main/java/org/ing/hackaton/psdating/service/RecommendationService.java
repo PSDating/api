@@ -5,9 +5,11 @@ import org.ing.hackaton.psdating.domain.BankAccount;
 import org.ing.hackaton.psdating.domain.Recommendation;
 import org.ing.hackaton.psdating.domain.Transaction;
 import org.ing.hackaton.psdating.domain.User;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,8 +24,10 @@ public final class RecommendationService {
     private RecommendationService recommendationService;
     @Autowired
     private KvkService kvkService;
+    @Autowired
+    private GoogleSearchService googleSearchService;
 
-    public List<Recommendation> fetchRecommendationsForUser(final User user) {
+    public List<Recommendation> fetchRecommendationsForUser(final User user) throws IOException, ParseException {
         final List<String> results = new ArrayList<>();
 
         final List<BankAccount> accounts = bankAccountService.getAccounts(user);
@@ -47,7 +51,7 @@ public final class RecommendationService {
 
     }
 
-    private Recommendation collectInfoOnRecommendation(final String companyName) {
-        return MockData.getMockData(companyName);
+    private Recommendation collectInfoOnRecommendation(final String companyName) throws IOException, ParseException {
+        return googleSearchService.collectInfoOnCompany(companyName);
     }
 }

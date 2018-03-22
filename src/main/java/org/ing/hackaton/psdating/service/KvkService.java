@@ -11,7 +11,7 @@ public final class KvkService {
     private KvkService() {}
 
     List<String> findAlternatives(final String partyName) {
-        return MockData.ALTERNATIVES;
+        return MockData.findAlternatives(partyName);
     }
 
 }

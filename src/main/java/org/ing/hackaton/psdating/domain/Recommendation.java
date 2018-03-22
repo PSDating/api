@@ -12,4 +12,5 @@ public final class Recommendation {
     private final String address;
     private final String zipCity;
     private final String phonenumber;
+    private final String url;
 }
